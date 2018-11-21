@@ -1,0 +1,19 @@
+{
+  "name": "dear-notice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Haojen/dear-notice.git"
+  },
+  "author": "haojenma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Haojen/dear-notice/issues"
+  },
+  "homepage": "https://github.com/Haojen/dear-notice#readme"
+}
