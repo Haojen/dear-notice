@@ -1,0 +1,65 @@
+/* Flex layout system by Haojen */
+.use-flex {
+  display: flex;
+
+
+  >.flex-1 {
+    flex: 1;
+  }
+
+  &.is-column {
+    flex-direction: column;
+  }
+
+  // 新语法
+  &.flex-is-column {
+    flex-direction: column;
+  }
+
+  &.flex-direction-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  &.is-wrap {
+    flex-wrap: wrap;
+  }
+
+  &.is-no-wrap {
+    flex-wrap: nowrap;
+  }
+
+  &.is-center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.is-justify-between {
+    justify-content: space-between;
+  }
+
+  &.is-align-center {
+    align-items: center;
+  }
+
+  &.is-align-end {
+    align-items: flex-end;
+  }
+
+  &.is-justify-center {
+    justify-content: center;
+  }
+
+  &.is-justify-end {
+    justify-content: end;
+  }
+
+}
+
+.hack-center {
+  display: table-row;
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
