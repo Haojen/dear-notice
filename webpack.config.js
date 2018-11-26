@@ -1,7 +1,12 @@
+const path = require('path')
+const Webpack = require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
+
 module.exports = {
-  entry: "src/index",
+  entry: "./src/index.js",
   output: {
-    path: '/dist'
+    path: path.resolve(__dirname, './dist'),
   },
   optimization: {
     splitChunks: {
@@ -47,5 +52,21 @@ module.exports = {
         ]
       }
     ]
+  },
+  plugins: [
+    // new Webpack.DefinePlugin({
+    //   'BUILD.date':  JSON.stringify(new Date().toLocaleString()),
+    // }),
+    new HTMLWebpackPlugin({
+      template: './index.html',
+      filename: './index.html'
+    }),
+    new VueLoaderPlugin(),
+  ],
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js'
+    },
+    extensions: ['*','.js', '.vue', '.json']
   },
 }

@@ -3,13 +3,13 @@
         <div class="notice-bg"></div>
         <div class="notice-box use-flex is-column box-shadow">
             <header class="use-flex is-center">
-                <p style="text-align: center">{{title}}</p>
+                <p v-text="title"></p>
             </header>
-            <section class="flex-1"  style="text-align: center;">
+            <section class="flex-1">
                 <p v-html="content"></p>
             </section>
-            <footer class="use-flex is-full-width" :class="showCancel ?'is-justify-between' : 'is-center' ">
-                <button class="box-shadow" style="background-color: #bfbfbf;" @click="onCancelEv" v-if="showCancel">
+            <footer :class="showCancel ?'is-justify-between' : 'is-center'">
+                <button class="box-shadow" style="background-color: #bfbfbf;" @click="onCancelEv" v-if="true ||showCancel">
                     <span>{{cancel}}</span>
                 </button>
                 <button class="box-shadow" style="background-color:#FF6600;"  @click="onConfirmEv">
@@ -25,48 +25,53 @@
     name: "notice",
     data() {
       return {
+        // 内容
         title: '',
         content: '',
+
+        // 展示状态
         show: false,
-        _CONTAINER: {},
-        _NOTICE_NUM: 0,
+
+        // 控制组件
         onCancel: null,
         onConfirm: null,
         showCancel: false,
+
+        backgroundEffectEl: null,
+        backgroundEffect: 'blur'
       }
     },
-    inject: [''],
     methods: {
       onCancelEv() {
-        // this.$clickSound()
         this.show = false
-        this.cancelBlur()
         this.onCancel && this.onCancel()
+        this.backgroundEffectEl && this.cancelBackgroundEffect()
       },
       onConfirmEv() {
-        // this.$clickSound()
         this.show = false
 
-        this.cancelBlur()
         this.onConfirm && this.onConfirm()
+        this.backgroundEffectEl && this.cancelBackgroundEffect()
       },
-      blur() {
-        const app = this._CONTAINER = document.querySelector('.app-page')
-        app.style.filter = 'blur(10px)'
+      showBackgroundEffect() {
+        document.querySelector(this.backgroundEffectEl).style.filter = 'blur(20px)'
       },
-      cancelBlur() {
-        this._CONTAINER.style.filter = 'none'
+      cancelBackgroundEffect() {
+        document.querySelector(this.backgroundEffectEl).style.filter = 'none'
       }
     },
     mounted() {
-      this.blur()
+      console.log(this.backgroundEffectEl, 'backgroundEffectEl')
+      this.backgroundEffectEl && this.showBackgroundEffect()
     }
   }
 </script>
 
 <style scoped lang="scss">
-    @import "index.scss";
+    @import "base";
+    @import "layout";
 
+    .debug {border: 1px solid red;}
     .dear-notice-widget {
         position: fixed;
         left: 0;
@@ -87,7 +92,7 @@
         .notice-box {
             position: absolute;
             overflow: hidden;
-            top: 40%;
+            top: 45%;
             left: 50%;
             height: auto;
 
@@ -98,25 +103,30 @@
             max-width: 380px;
 
             width: 80%;
-            padding: 25px 15px;
+            will-change: auto;
             border-radius: 15px;
             transform: translate(-50%, -50%);
             background-color: rgba(255, 255, 255, 0.95);
 
-            animation: vkpulse 1s ;
+            animation: noticeShow 1s ease-in;
+
+            @keyframes noticeShow {
+                0% {
+
+                }
+            }
 
             > header {
-                position: absolute;
-                left: 0;
-                top: 0;
                 width: 100%;
                 height: 40px;
+                line-height: 40px;
+                text-align: center;
                 font-weight: bolder;
             }
 
             > section {
-                margin: 20px 0;
                 overflow: auto;
+                margin: 0 15px 80px;
 
                 color: #555555;
                 max-height: 500px;
@@ -126,15 +136,19 @@
             }
 
             > footer {
-                width: 100%;
-                height: 40px;
-                font-size: 14px;
+                position: absolute;
+                bottom: 20px;
+                text-align: center;
 
+                width: 100%;
+                height: 44px;
+                box-sizing: border-box;
                 button {
+                    width: 45%;
                     height: 100%;
 
                     color: #fff;
-                    width: 45%;
+                    font-size: 16px;
                     border-radius: 20px;
                 }
             }

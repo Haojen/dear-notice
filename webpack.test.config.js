@@ -69,4 +69,7 @@ module.exports = {
     },
     extensions: ['*','.js', '.vue', '.json']
   },
+  devServer: {
+    host: '0.0.0.0', // can be overwritten by process.env.HOST // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+  },
 }
