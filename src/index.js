@@ -1,13 +1,14 @@
+// Support iOS8 WeakSet
+// import 'core-js/fn/weak-set'
+
 export default {
   install(Vue, config = {}) {
-    let noticeId = 1, trigger;
-    document.body.addEventListener('click', ev => {
-      console.log(ev, 'evt on body')
-      trigger = {
-        x: ev.clientX,
-        y: ev.clientY
-      }
-    })
+    // const wk = new WeakSet([[1,2],[3,4]])
+
+
+    // console.log(wk, 'xxxxxxxx')
+    let noticeId = 1;
+
     const NoticeConstructor = Vue.extend(require('./index.vue').default)
 
     Vue.prototype[config.prefix||'$notice'] = options => {
@@ -18,7 +19,6 @@ export default {
           cancel: '取消',
           confirm: '确认',
 
-          trigger,
           backgroundEffectEl: config.backgroundEffectEl,
         }, options)
       })
@@ -28,6 +28,7 @@ export default {
       NoticeInstance.dom = NoticeInstance.vm.$el
       NoticeInstance.dom.style.zIndex = 1000 + noticeId
       document.body.appendChild(NoticeInstance.dom)
+      NoticeInstance.insertedDOM()
       return NoticeInstance
     }
   }

@@ -1,26 +1,39 @@
 <template>
     <div class="dear-notice-widget animated pulse faster" v-if="show">
-        <div class="notice-bg"></div>
-        <div class="notice-box use-flex is-column box-shadow">
-            <header class="use-flex is-center">
-                <p v-text="title"></p>
-            </header>
-            <section class="flex-1">
-                <p v-html="content"></p>
-            </section>
-            <footer :class="showCancel ?'is-justify-between' : 'is-center'">
-                <button class="box-shadow" style="background-color: #bfbfbf;" @click="onCancelEv" v-if="true ||showCancel">
-                    <span>{{cancel}}</span>
-                </button>
-                <button class="box-shadow" style="background-color:#FF6600;"  @click="onConfirmEv">
-                    <span>{{confirm}}</span>
-                </button>
-            </footer>
+        <div class="notice-bg" ref="overlay"></div>
+        <div ref="noticeContainer" style="position: absolute; top: 0; right: 0;left: 0;bottom: 0;justify-content: center; align-items: center;">
+            <div class="notice-box box-shadow" ref="notice">
+                <header class="use-flex is-center">
+                    <p v-text="title"></p>
+                </header>
+                <section class="flex-1">
+                    <p v-html="content"></p>
+                </section>
+                <footer >
+                    <button class="box-shadow" style="background-color: #bfbfbf;" @click="onCancelEv" v-if="showCancel">
+                        <span>{{cancel}}</span>
+                    </button>
+                    <button class="box-shadow" style="background-color:#FF6600;"  @click="onConfirmEv">
+                        <span>{{confirm}}</span>
+                    </button>
+                </footer>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+  // import {tween, easing, transform, chain, delay, parallel, css} from 'popmotion'
+  // const {interpolate} = transform
+  const vRange = [0, 1]
+
+  let  dimmerRenderer,
+       modalRenderer,
+       modalContainerRenderer,
+       trigger;
+
+  let Popmotion;
+
   export default {
     name: "notice",
     data() {
@@ -37,8 +50,9 @@
         onConfirm: null,
         showCancel: false,
 
+        triggerEl: {},
+        backgroundEffect: 'blur',
         backgroundEffectEl: null,
-        backgroundEffect: 'blur'
       }
     },
     methods: {
@@ -48,22 +62,135 @@
         this.backgroundEffectEl && this.cancelBackgroundEffect()
       },
       onConfirmEv() {
-        this.show = false
+        // this.show = false
 
         this.onConfirm && this.onConfirm()
         this.backgroundEffectEl && this.cancelBackgroundEffect()
+
+        this.submitModal()
       },
       showBackgroundEffect() {
         document.querySelector(this.backgroundEffectEl).style.filter = 'blur(20px)'
       },
+      // Return the center x, y of a bounding box
+      findCenter({ top, left, height, width }) {
+        return {
+          x: left + (width / 2),
+          y: top + (height / 2)
+        };
+      },
+      generateModalTweener(sourceBBox, destinationBBox) {
+        const interpolate = Popmotion.transform.interpolate
+        const sourceCenter = this.findCenter(sourceBBox);
+        const destinationCenter = this.findCenter(destinationBBox);
+
+        const toX = interpolate(vRange, [sourceCenter.x - destinationCenter.x, 0]);
+        const toY = interpolate(vRange, [sourceCenter.y - destinationCenter.y, 0]);
+        const toScaleX = interpolate(vRange, [sourceBBox.width / destinationBBox.width, 1]);
+        const toScaleY = interpolate(vRange, [sourceBBox.height / destinationBBox.height, 1]);
+
+        return v => modalRenderer.set({
+            opacity: v,
+            x: toX(v),
+            y: toY(v),
+            scaleX: toScaleX(v),
+            scaleY: toScaleY(v)
+        })
+
+      },
+      openModal(e) {
+          trigger = e.target;
+         const {tween, easing, transform, chain, delay, parallel} = Popmotion
+
+        const triggerBBox = trigger.getBoundingClientRect()
+        const modalBBox = this.$refs.notice.getBoundingClientRect()
+        const modalTweener = this.generateModalTweener(triggerBBox, modalBBox)
+
+        tween({
+          duration: 200,
+          onUpdate: (v) => dimmerRenderer.set('opacity', v)
+        }).start()
+
+        chain(
+          delay(75),
+          tween({
+              duration: 200,
+              ease: easing.easeOut,
+            }
+          )).start({
+          update: modalTweener
+        })
+
+      },
       cancelBackgroundEffect() {
         document.querySelector(this.backgroundEffectEl).style.filter = 'none'
+      },
+
+      submitModal() {
+        const {tween, easing, transform, chain, delay, parallel} = Popmotion
+        const interpolate = transform.interpolate
+
+        const toScaleXIn = interpolate(vRange, [1, 1.2]);
+        const toScaleYIn = interpolate(vRange, [1, 0.8]);
+
+        const toScaleXOut = interpolate(vRange, [1.2, 0.5]);
+        const toScaleYOut = interpolate(vRange, [0.8, 2]);
+
+        chain(
+          tween({
+            duration: 200,
+          }).start( ...arg => {
+            console.log(arg,'arg')
+          }),
+        )
+
+        // parallel([
+        //   tween({
+        //     from: dimmerRenderer.get('opacity'),
+        //     to: 0,
+        //   }).start({
+        //     update: (v) => dimmerRenderer.set('opacity', v)
+        //   }),
+        //   tween({
+        //     duration: 200,
+        //   }).start({
+        //     update: (v) => modalRenderer.set({
+        //       opacity: 1 - v,
+        //       scaleX: toScaleXOut(v),
+        //       scaleY: toScaleYOut(v),
+        //       y: - 300 * easing.easeIn(v)
+        //     }),
+        //     complete: () => {
+        //       this.show = false
+        //     }
+        //   })
+        // ])
+      },
+      insertedDOM() {
+        // import {tween, easing, transform, chain, delay, parallel, css} from 'popmotion'
+        // const {interpolate} = transform
+
+        if (!window.WeakSet) {
+          console.log('不支持weakset')
+          return
+        }
+
+        Popmotion = require('popmotion')
+
+        this.backgroundEffectEl && this.showBackgroundEffect()
+
+        this.$refs.notice.style.position = 'inherit'
+        modalRenderer = Popmotion.css(this.$refs.notice);
+        dimmerRenderer = Popmotion.css(this.$refs.overlay);
+        modalContainerRenderer = Popmotion.css(this.$refs.noticeContainer);
+
+        modalRenderer.set('opacity',0).render()
+        dimmerRenderer.set('display', 'block').render()
+        modalContainerRenderer.set('display', 'flex').render()
+
+        this.openModal(this.triggerEl)
       }
     },
-    mounted() {
-      console.log(this.backgroundEffectEl, 'backgroundEffectEl')
-      this.backgroundEffectEl && this.showBackgroundEffect()
-    }
   }
 </script>
 
@@ -91,9 +218,13 @@
 
         .notice-box {
             position: absolute;
-            overflow: hidden;
-            top: 45%;
             left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            overflow: hidden;
+
+            width: 80%;
             height: auto;
 
             min-height: 200px;
@@ -102,19 +233,10 @@
             min-width: 180px;
             max-width: 380px;
 
-            width: 80%;
+
             will-change: auto;
             border-radius: 15px;
-            transform: translate(-50%, -50%);
             background-color: rgba(255, 255, 255, 0.95);
-
-            animation: noticeShow 1s ease-in;
-
-            @keyframes noticeShow {
-                0% {
-
-                }
-            }
 
             > header {
                 width: 100%;

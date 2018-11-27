@@ -2,7 +2,7 @@
   "name": "dear-notice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --config webpack.test.config"
@@ -44,5 +44,9 @@
     "vue-loader": "15.3.0",
     "vue-style-loader": "4.1.1",
     "vue-template-compiler": "2.5.17"
+  },
+  "dependencies": {
+    "core-js": "^2.5.7",
+    "popmotion": "^8.5.3"
   }
 }

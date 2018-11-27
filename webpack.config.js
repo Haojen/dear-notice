@@ -54,19 +54,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // new Webpack.DefinePlugin({
-    //   'BUILD.date':  JSON.stringify(new Date().toLocaleString()),
-    // }),
-    new HTMLWebpackPlugin({
-      template: './index.html',
-      filename: './index.html'
-    }),
     new VueLoaderPlugin(),
-  ],
-  resolve: {
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js'
-    },
-    extensions: ['*','.js', '.vue', '.json']
-  },
+  ]
 }
