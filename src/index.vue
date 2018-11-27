@@ -127,59 +127,63 @@
       },
 
       submitModal() {
-        const {tween, easing, transform, chain, delay, parallel} = Popmotion
+        if (!window.WeakSet) {
+          this.show = false
+          return
+        }
+        const {tween, easing, transform, parallel} = Popmotion
         const interpolate = transform.interpolate
 
         const toScaleXIn = interpolate(vRange, [1, 1.2]);
         const toScaleYIn = interpolate(vRange, [1, 0.8]);
 
-        const toScaleXOut = interpolate(vRange, [1.2, 0.5]);
-        const toScaleYOut = interpolate(vRange, [0.8, 2]);
+        const toScaleXOut = interpolate(vRange, [1.2, 0.6]);
+        const toScaleYOut = interpolate(vRange, [0.8, 1.6]);
 
-        chain(
-          tween({
-            duration: 200,
-          }).start( ...arg => {
-            console.log(arg,'arg')
+        modalRenderer.set('transform-origin', '50% 100%')
+
+        tween({
+          duration: 300,
+        }).start({
+          update: v => modalRenderer.set({
+            scaleX: toScaleXIn(v),
+            scaleY: toScaleYIn(v),
+            y: v * 100
           }),
-        )
-
-        // parallel([
-        //   tween({
-        //     from: dimmerRenderer.get('opacity'),
-        //     to: 0,
-        //   }).start({
-        //     update: (v) => dimmerRenderer.set('opacity', v)
-        //   }),
-        //   tween({
-        //     duration: 200,
-        //   }).start({
-        //     update: (v) => modalRenderer.set({
-        //       opacity: 1 - v,
-        //       scaleX: toScaleXOut(v),
-        //       scaleY: toScaleYOut(v),
-        //       y: - 300 * easing.easeIn(v)
-        //     }),
-        //     complete: () => {
-        //       this.show = false
-        //     }
-        //   })
-        // ])
+          complete: () => {
+            parallel(
+              tween({
+                from: dimmerRenderer.get('opacity'),
+                to: 0,
+              }).start({
+                update: (v) => dimmerRenderer.set('opacity', v)
+              }),
+              tween({
+                duration: 200,
+              }).start({
+                update: (v) => modalRenderer.set({
+                  opacity: 1 - v,
+                  scaleX: toScaleXOut(v),
+                  scaleY: toScaleYOut(v),
+                  y: - 50 * easing.easeIn(v)
+                }),
+                complete: () => {
+                  this.show = false
+                }
+              })
+            )
+          }
+        })
       },
       insertedDOM() {
-        // import {tween, easing, transform, chain, delay, parallel, css} from 'popmotion'
-        // const {interpolate} = transform
-
-        if (!window.WeakSet) {
-          console.log('不支持weakset')
-          return
-        }
+        if (!window.WeakSet) return
 
         Popmotion = require('popmotion')
 
         this.backgroundEffectEl && this.showBackgroundEffect()
 
-        this.$refs.notice.style.position = 'inherit'
+        this.$refs.notice.style.top = 'unset'
+        this.$refs.notice.style.left = 'unset'
         modalRenderer = Popmotion.css(this.$refs.notice);
         dimmerRenderer = Popmotion.css(this.$refs.overlay);
         modalContainerRenderer = Popmotion.css(this.$refs.noticeContainer);
