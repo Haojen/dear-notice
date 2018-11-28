@@ -115,7 +115,7 @@
                     <p v-html="content"></p>
                 </section>
                 <footer>
-                    <button class="box-shadow cancel-btn" @click="onCancelEv" v-if="showCancel">
+                    <button class="box-shadow cancel-btn" @click="onCancelEv" v-if="cancel">
                         <span>{{cancel}}</span>
                     </button>
                     <button class="box-shadow"  @click="onConfirmEv">
@@ -150,10 +150,9 @@
         // 控制组件
         onCancel: null,
         onConfirm: null,
-        showCancel: false,
 
         triggerEl: null,
-        backgroundEffect: 'blur',
+        backgroundEffect: null,
         backgroundEffectEl: null,
       }
     },
