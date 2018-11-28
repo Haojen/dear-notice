@@ -277,6 +277,8 @@ exports.default = {
       // 内容
       title: '',
       content: '',
+      cancel: null,
+      confirm: null,
 
       // 展示状态
       show: false,
