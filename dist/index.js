@@ -271,9 +271,7 @@ exports.default = {
 
       triggerEl: null,
       backgroundEffect: 'blur',
-      backgroundEffectEl: null,
-
-      handle: null // trigger
+      backgroundEffectEl: null
     };
   },
 
@@ -285,8 +283,6 @@ exports.default = {
     },
     onConfirmEv: function onConfirmEv() {
       var _this = this;
-
-      document.body.removeEventListener('click', this.handle);
 
       if (!window.WeakSet || !this.triggerEl) {
         this.show = false;
@@ -434,14 +430,6 @@ exports.default = {
       }
       this.bestShowMode();
     }
-  },
-  mounted: function mounted() {
-    // this.handle = (event) => {
-    //   console.log(event)
-    //   this.triggerEl = event.target
-    // }
-    //
-    // document.body.addEventListener('click', this.handle)
   }
 };
 
@@ -543,7 +531,7 @@ var render = function() {
               _c("p", { domProps: { textContent: _vm._s(_vm.title) } })
             ]),
             _vm._v(" "),
-            _c("section", { staticClass: "flex-1" }, [
+            _c("section", [
               _c("p", { domProps: { innerHTML: _vm._s(_vm.content) } })
             ]),
             _vm._v(" "),
@@ -761,7 +749,6 @@ exports.default = {
     var noticeId = 1;
     var NoticeConstructor = Vue.extend(__webpack_require__(44).default);
     Vue.prototype[config.prefix || '$notice'] = function (options) {
-      console.log(event);
       var NoticeInstance = new NoticeConstructor({
         data: (0, _assign2.default)({}, {
           show: true,
@@ -1291,7 +1278,7 @@ exports = module.exports = __webpack_require__(47)(false);
 
 
 // module
-exports.push([module.i, "\nh1[data-v-2964abc9],h2[data-v-2964abc9],h3[data-v-2964abc9],h4[data-v-2964abc9],h5[data-v-2964abc9],h6[data-v-2964abc9],p[data-v-2964abc9],ul[data-v-2964abc9]{margin:0\n}\nol[data-v-2964abc9],ul[data-v-2964abc9]{list-style:none;padding-left:0\n}\nbutton[data-v-2964abc9]{display:inline-block;border:none;margin:0;padding:0;width:auto;outline:none;font:inherit;color:inherit;overflow:visible;line-height:normal;background:none;-webkit-appearance:none;-webkit-font-smoothing:inherit\n}\n*[data-v-2964abc9]{-webkit-box-sizing:border-box;box-sizing:border-box\n}\ni.icon[data-v-2964abc9]{font-style:normal;display:inline-block\n}\nhtml[data-v-2964abc9]{-webkit-tap-highlight-color:rgba(0,0,0,0)\n}\n.use-flex[data-v-2964abc9]{display:-webkit-box;display:-webkit-flex;display:flex\n}\n.use-flex>.flex-1[data-v-2964abc9]{-webkit-box-flex:1;-webkit-flex:1;flex:1\n}\n.use-flex.flex-is-column[data-v-2964abc9],.use-flex.is-column[data-v-2964abc9]{-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column\n}\n.use-flex.flex-direction-row-reverse[data-v-2964abc9]{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-webkit-flex-direction:row-reverse;flex-direction:row-reverse\n}\n.use-flex.is-wrap[data-v-2964abc9]{-webkit-flex-wrap:wrap;flex-wrap:wrap\n}\n.use-flex.is-no-wrap[data-v-2964abc9]{-webkit-flex-wrap:nowrap;flex-wrap:nowrap\n}\n.use-flex.is-center[data-v-2964abc9]{-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center\n}\n.use-flex.is-justify-between[data-v-2964abc9]{-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between\n}\n.use-flex.is-align-center[data-v-2964abc9]{-webkit-box-align:center;-webkit-align-items:center;align-items:center\n}\n.use-flex.is-align-end[data-v-2964abc9]{-webkit-box-align:end;-webkit-align-items:flex-end;align-items:flex-end\n}\n.use-flex.is-justify-center[data-v-2964abc9]{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center\n}\n.use-flex.is-justify-end[data-v-2964abc9]{-webkit-box-pack:end;-webkit-justify-content:end;justify-content:end\n}\n.hack-center[data-v-2964abc9]{display:table-row\n}\n.hack-center>*[data-v-2964abc9]{display:table-cell;vertical-align:middle\n}\n.debug[data-v-2964abc9]{border:1px solid red\n}\n.dear-notice-widget[data-v-2964abc9]{position:fixed;left:0;top:0;width:100vw;height:100vh;font-size:18px;font-family:PingFang SC,sans-serif\n}\n.dear-notice-widget .notice-bg[data-v-2964abc9]{position:absolute;left:0;top:0;width:100vw;height:100vh;background-color:rgba(0,0,0,.4)\n}\n.dear-notice-widget .notice-wrapper[data-v-2964abc9]{position:absolute;top:0;right:0;left:0;bottom:0;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center\n}\n.dear-notice-widget .notice-box[data-v-2964abc9]{position:absolute;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;overflow:hidden;width:80%;height:auto;min-height:200px;max-height:70vh;min-width:180px;max-width:380px;will-change:auto;border-radius:15px;background-color:hsla(0,0%,100%,.95)\n}\n.dear-notice-widget .notice-box>header[data-v-2964abc9]{width:100%;height:40px;line-height:40px;text-align:center;font-weight:bolder\n}\n.dear-notice-widget .notice-box>section[data-v-2964abc9]{overflow:auto;margin:0 15px;color:#555;max-height:500px;text-align:center;word-break:break-word;-webkit-overflow-scrolling:touch\n}\n.dear-notice-widget .notice-box>footer[data-v-2964abc9]{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;width:100%;height:80px;-webkit-box-sizing:border-box;box-sizing:border-box\n}\n.dear-notice-widget .notice-box>footer button[data-v-2964abc9]{width:45%;height:44px;color:#fff;font-size:16px;border-radius:20px;background-color:#f60\n}\n.dear-notice-widget .notice-box>footer .cancel-btn[data-v-2964abc9]{margin-right:2%;background-color:#bfbfbf\n}\n.box-shadow[data-v-2964abc9]{-webkit-box-shadow:0 4px 0 0 rgba(0,0,0,.1);box-shadow:0 4px 0 0 rgba(0,0,0,.1)\n}", ""]);
+exports.push([module.i, "\nh1[data-v-2964abc9],h2[data-v-2964abc9],h3[data-v-2964abc9],h4[data-v-2964abc9],h5[data-v-2964abc9],h6[data-v-2964abc9],p[data-v-2964abc9],ul[data-v-2964abc9]{margin:0\n}\nol[data-v-2964abc9],ul[data-v-2964abc9]{list-style:none;padding-left:0\n}\nbutton[data-v-2964abc9]{display:inline-block;border:none;margin:0;padding:0;width:auto;outline:none;font:inherit;color:inherit;overflow:visible;line-height:normal;background:none;-webkit-appearance:none;-webkit-font-smoothing:inherit\n}\n*[data-v-2964abc9]{-webkit-box-sizing:border-box;box-sizing:border-box\n}\ni.icon[data-v-2964abc9]{font-style:normal;display:inline-block\n}\nhtml[data-v-2964abc9]{-webkit-tap-highlight-color:rgba(0,0,0,0)\n}\n.use-flex[data-v-2964abc9]{display:-webkit-box;display:-webkit-flex;display:flex\n}\n.use-flex>.flex-1[data-v-2964abc9]{-webkit-box-flex:1;-webkit-flex:1;flex:1\n}\n.use-flex.flex-is-column[data-v-2964abc9],.use-flex.is-column[data-v-2964abc9]{-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column\n}\n.use-flex.flex-direction-row-reverse[data-v-2964abc9]{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-webkit-flex-direction:row-reverse;flex-direction:row-reverse\n}\n.use-flex.is-wrap[data-v-2964abc9]{-webkit-flex-wrap:wrap;flex-wrap:wrap\n}\n.use-flex.is-no-wrap[data-v-2964abc9]{-webkit-flex-wrap:nowrap;flex-wrap:nowrap\n}\n.use-flex.is-center[data-v-2964abc9]{-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center\n}\n.use-flex.is-justify-between[data-v-2964abc9]{-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between\n}\n.use-flex.is-align-center[data-v-2964abc9]{-webkit-box-align:center;-webkit-align-items:center;align-items:center\n}\n.use-flex.is-align-end[data-v-2964abc9]{-webkit-box-align:end;-webkit-align-items:flex-end;align-items:flex-end\n}\n.use-flex.is-justify-center[data-v-2964abc9]{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center\n}\n.use-flex.is-justify-end[data-v-2964abc9]{-webkit-box-pack:end;-webkit-justify-content:end;justify-content:end\n}\n.debug[data-v-2964abc9]{border:1px solid red\n}\n.dear-notice-widget[data-v-2964abc9]{position:fixed;left:0;top:0;width:100vw;height:100vh;font-size:18px;font-family:PingFang SC,sans-serif\n}\n.dear-notice-widget .notice-bg[data-v-2964abc9]{position:absolute;left:0;top:0;width:100vw;height:100vh;background-color:rgba(0,0,0,.4)\n}\n.dear-notice-widget .notice-wrapper[data-v-2964abc9]{position:absolute;top:0;right:0;left:0;bottom:0;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center\n}\n.dear-notice-widget .notice-box[data-v-2964abc9]{position:absolute;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;overflow:hidden;width:80%;height:auto;min-height:200px;max-height:70vh;min-width:180px;max-width:380px;will-change:auto;border-radius:15px;background-color:hsla(0,0%,100%,.95)\n}\n.dear-notice-widget .notice-box>header[data-v-2964abc9]{width:100%;height:40px;line-height:40px;text-align:center;font-weight:bolder\n}\n.dear-notice-widget .notice-box>section[data-v-2964abc9]{-webkit-box-flex:1;-webkit-flex:1;flex:1;overflow:auto;margin:0 15px;color:#555;max-height:500px;text-align:center;word-break:break-word;-webkit-overflow-scrolling:touch\n}\n.dear-notice-widget .notice-box>footer[data-v-2964abc9]{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;width:100%;height:80px;-webkit-box-sizing:border-box;box-sizing:border-box\n}\n.dear-notice-widget .notice-box>footer button[data-v-2964abc9]{width:45%;height:44px;color:#fff;font-size:16px;border-radius:20px;background-color:#f60\n}\n.dear-notice-widget .notice-box>footer .cancel-btn[data-v-2964abc9]{margin-right:2%;background-color:#bfbfbf\n}\n.box-shadow[data-v-2964abc9]{-webkit-box-shadow:0 4px 0 0 rgba(0,0,0,.1);box-shadow:0 4px 0 0 rgba(0,0,0,.1)\n}", ""]);
 
 // exports
 
