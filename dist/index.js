@@ -302,7 +302,7 @@ exports.default = {
     onConfirmEv: function onConfirmEv() {
       var _this = this;
 
-      if (!window.WeakSet || !this.triggerEl) {
+      if (!window.WeakSet || !this.triggerEl || this.triggerEl.type !== 'click') {
         this.show = false;
         this.onConfirm && this.onConfirm();
         this.backgroundEffectEl && this.cancelBackgroundEffect();
@@ -443,7 +443,7 @@ exports.default = {
     },
     insertedDOM: function insertedDOM() {
       this.backgroundEffectEl && this.showBackgroundEffect();
-      if (!window.WeakSet || !this.triggerEl) {
+      if (!window.WeakSet || !this.triggerEl || this.triggerEl.type !== 'click') {
         this.compatibilityShowMode();
         return;
       }

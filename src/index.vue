@@ -130,8 +130,8 @@
   const vRange = [0, 1]
 
   let  dimmerRenderer,
-       modalRenderer,
-       modalContainerRenderer;
+    modalRenderer,
+    modalContainerRenderer;
 
   let Popmotion;
 
@@ -164,7 +164,7 @@
         this.backgroundEffectEl && this.cancelBackgroundEffect()
       },
       onConfirmEv() {
-        if (!window.WeakSet || !this.triggerEl) {
+        if (!window.WeakSet || !this.triggerEl || this.triggerEl.type !== 'click') {
           this.show = false
           this.onConfirm && this.onConfirm()
           this.backgroundEffectEl && this.cancelBackgroundEffect()
@@ -237,11 +237,11 @@
         const toScaleY = interpolate(vRange, [sourceBBox.height / destinationBBox.height, 1]);
 
         return v => modalRenderer.set({
-            opacity: v,
-            x: toX(v),
-            y: toY(v),
-            scaleX: toScaleX(v),
-            scaleY: toScaleY(v)
+          opacity: v,
+          x: toX(v),
+          y: toY(v),
+          scaleX: toScaleX(v),
+          scaleY: toScaleY(v)
         })
 
       },
@@ -287,7 +287,7 @@
       },
       insertedDOM() {
         this.backgroundEffectEl && this.showBackgroundEffect()
-        if (!window.WeakSet || !this.triggerEl) {
+        if (!window.WeakSet || !this.triggerEl || this.triggerEl.type !== 'click') {
           this.compatibilityShowMode()
           return
         }
