@@ -1,17 +1,9 @@
 {
   "presets": [
     ["env", {
-      "modules": false,
-      "debug": false,
-      "targets": {
-        "browsers": [
-          "> 1%",
-          "not ie <=10",
-          "iOS >7"
-        ]
-      }
+      "debug": false
     }],
-    "stage-3"
+    "stage-2"
   ],
   "plugins": ["transform-runtime"]
 }

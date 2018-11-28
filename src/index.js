@@ -1,16 +1,7 @@
-// Support iOS8 WeakSet
-// import 'core-js/fn/weak-set'
-
 export default {
   install(Vue, config = {}) {
-    // const wk = new WeakSet([[1,2],[3,4]])
-
-
-    // console.log(wk, 'xxxxxxxx')
     let noticeId = 1;
-
     const NoticeConstructor = Vue.extend(require('./index.vue').default)
-
     Vue.prototype[config.prefix||'$notice'] = options => {
       const NoticeInstance = new NoticeConstructor({
         data: Object.assign({}, {
@@ -18,7 +9,7 @@ export default {
           title: '提示',
           cancel: '取消',
           confirm: '确认',
-
+          triggerEl: event,
           backgroundEffectEl: config.backgroundEffectEl,
         }, options)
       })

@@ -1,18 +1,28 @@
 const path = require('path')
-const Webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  entry: "./src/index.js",
-  output: {
-    path: path.resolve(__dirname, './dist'),
+  entry: {
+    'index': "./src/index.js",
+    'index.min': './src/index.js'
   },
   optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.min\.js$/,
+      })
+    ]
   },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    libraryTarget: "umd",
+    library: "DearNotice",
+    libraryExport: "default"
+  },
+  // externals: {
+  //   vue: 'vue'
+  // },
   module: {
     rules: [
       {
