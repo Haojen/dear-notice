@@ -62,6 +62,7 @@
             }
 
             > section {
+                flex: 1;
                 overflow: auto;
                 margin: 0 15px 0;
 
@@ -111,7 +112,7 @@
                 <header class="use-flex is-center">
                     <p v-text="title"></p>
                 </header>
-                <section class="flex-1">
+                <section>
                     <p v-html="content"></p>
                 </section>
                 <footer>
