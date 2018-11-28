@@ -250,8 +250,11 @@
       },
       bestShowMode() {
         Popmotion = require('popmotion')
-        this.$refs.notice.style.top = 'unset'
-        this.$refs.notice.style.left = 'unset'
+
+        this.$refs.notice.style.position = 'relative'
+        this.$refs.notice.style.top = '0'
+        this.$refs.notice.style.left = '0'
+        // this.$refs.notice.style.transform = 'none'
         modalRenderer = Popmotion.styler(this.$refs.notice);
         dimmerRenderer = Popmotion.styler(this.$refs.overlay);
         modalContainerRenderer = Popmotion.styler(this.$refs.noticeContainer);

@@ -1,8 +1,6 @@
 <template>
     <div class="test-page">
         <button class="modal-trigger" @click="onclickTest">test</button>
-        <button class="modal-trigger" style="margin: 500px" @click="onclickTest">center</button>
-        <button class="modal-trigger" style="position: absolute;top: 200px;" @click="onclickTest">top</button>
     </div>
 </template>
 
@@ -28,8 +26,6 @@
 
         width: 100vw;
         height: 100vh;
-        background: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543806728&di=fe0908098dbb7feec299996534b3e283&imgtype=jpg&er=1&src=http%3A%2F%2Foss.gkstk.com%2Fimages%2F2017%2F2%2F24154654454.png");
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-color: rebeccapurple;
     }
 </style>
