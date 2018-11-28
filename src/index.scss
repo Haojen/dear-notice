@@ -1,4 +1,55 @@
-/* Flex layout system by Haojen */
+/*
+  Remove margin
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p, ul{
+  margin: 0;
+}
+
+/* Reset list element style*/
+ul,
+ol{
+  list-style: none;
+  padding-left: 0;
+}
+
+button{
+  display: inline-block;
+
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  overflow: visible;
+  line-height: normal;
+  background: none;
+
+  -webkit-appearance: none;
+  -webkit-font-smoothing: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+i.icon {
+  font-style: normal;
+  display: inline-block;
+}
+
+html {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 .use-flex {
   display: flex;
 
@@ -53,13 +104,4 @@
     justify-content: end;
   }
 
-}
-
-.hack-center {
-  display: table-row;
-
-  > * {
-    display: table-cell;
-    vertical-align: middle;
-  }
 }

@@ -1,6 +1,5 @@
 <style scoped lang="scss">
-    @import "base";
-    @import "layout";
+    @import "index";
 
     .debug {border: 1px solid red;}
     .dear-notice-widget {
