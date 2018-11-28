@@ -98,7 +98,6 @@
             }
         }
     }
-
     .box-shadow {
         box-shadow: 0 4px 0 0 rgba(0,0,0,.1);
     }
@@ -165,6 +164,7 @@
       onConfirmEv() {
         if (!window.WeakSet || !this.triggerEl) {
           this.show = false
+          this.onConfirm && this.onConfirm()
           this.backgroundEffectEl && this.cancelBackgroundEffect()
           return
         }
