@@ -1,6 +1,6 @@
 {
   "name": "dear-notice",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
-    "popmotion": "8.5.3"
+    "animejs": "3.0.1"
   },
   "browserslist": [
     "> 1%",

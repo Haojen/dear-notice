@@ -20,12 +20,13 @@ export default {
             backgroundEffectEl: config.backgroundEffectEl,
           }, options)
         })
-        NoticeInstance.id = `notice-${noticeId}`
+        NoticeInstance.id = `dear-notice-${noticeId}`
         NoticeInstance.vm = NoticeInstance.$mount()
         NoticeInstance.dom = NoticeInstance.vm.$el
         NoticeInstance.dom.style.zIndex = 1000 + noticeId
         document.body.appendChild(NoticeInstance.dom)
         NoticeInstance.insertedDOM()
+        noticeId++
         return NoticeInstance
       }
     })

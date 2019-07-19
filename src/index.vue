@@ -24,14 +24,11 @@
             top: 0; right: 0;
             left: 0;bottom: 0;
 
+            display: flex;
             align-items: center;
             justify-content: center;
         }
         .notice-box {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
 
             display: flex;
             flex-direction: column;
@@ -46,7 +43,6 @@
 
             min-width: 180px;
             max-width: 380px;
-
 
             will-change: auto;
             border-radius: 15px;
@@ -127,13 +123,7 @@
 </template>
 
 <script>
-  const vRange = [0, 1]
-
-  let  dimmerRenderer,
-    modalRenderer,
-    modalContainerRenderer;
-
-  let Popmotion;
+  import Anime from 'animejs'
 
   export default {
     name: "notice",
@@ -159,142 +149,57 @@
     },
     methods: {
       onCancelEv() {
-        this.show = false
-        this.onCancel && this.onCancel()
-        this.backgroundEffectEl && this.cancelBackgroundEffect()
+        Anime({
+          targets: this.$refs.notice,
+          opacity: 0,
+          duration: 280,
+          easing: 'easeInOutSine',
+          translateY: window.innerHeight / 2,
+        })
+        .complete = () => {
+          this.show = false
+          this.onCancel && this.onCancel()
+          this.backgroundEffectEl && this.cancelBackgroundEffect()
+        }
       },
       onConfirmEv() {
-        if (!window.WeakSet || !this.triggerEl || this.triggerEl.type !== 'click') {
+        const tl = new Anime.timeline
+
+        tl.add({
+          targets: this.$refs.notice,
+          scaleX: 1.3,
+          scaleY: 0.7,
+          translateY: 120,
+          easing: 'easeInOutSine',
+          duration: 200
+        })
+        .add({
+          targets: this.$refs.notice,
+          translateY: -window.innerHeight / 3,
+          opacity: 0,
+          scaleX: 0.4,
+          scaleY: 1.2,
+          duration: 280,
+          easing: 'easeInOutSine',
+        })
+        .complete = () => {
           this.show = false
           this.onConfirm && this.onConfirm()
           this.backgroundEffectEl && this.cancelBackgroundEffect()
-          return
         }
-
-        const {tween, easing, transform, parallel} = Popmotion
-        const interpolate = transform.interpolate
-
-        const toScaleXIn = interpolate(vRange, [1, 1.2]);
-        const toScaleYIn = interpolate(vRange, [1, 0.8]);
-
-        const toScaleXOut = interpolate(vRange, [1.2, 0.6]);
-        const toScaleYOut = interpolate(vRange, [0.8, 1.28]);
-
-        modalRenderer.set('transform-origin', '50% 100%')
-        this.backgroundEffectEl && this.cancelBackgroundEffect()
-
-        tween({
-          duration: 300,
-        }).start({
-          update: v => modalRenderer.set({
-            scaleX: toScaleXIn(v),
-            scaleY: toScaleYIn(v),
-            y: v * 100
-          }),
-          complete: () => {
-            parallel(
-              tween({
-                from: dimmerRenderer.get('opacity'),
-                to: 0,
-              }).start({
-                update: (v) => dimmerRenderer.set('opacity', v)
-              }),
-              tween({
-                duration: 200,
-              }).start({
-                update: (v) => modalRenderer.set({
-                  opacity: 1 - v,
-                  scaleX: toScaleXOut(v),
-                  scaleY: toScaleYOut(v),
-                  y: - 50 * easing.easeIn(v)
-                }),
-                complete: () => {
-                  this.show = false
-                  this.onConfirm && this.onConfirm()
-                }
-              })
-            )
-          }
-        })
-      },
-      showBackgroundEffect() {
-        document.querySelector(this.backgroundEffectEl).style.filter = 'blur(20px)'
-      },
-      findCenter({ top, left, height, width }) {
-        return {
-          x: left + (width / 2),
-          y: top + (height / 2)
-        };
-      },
-      generateModalTweener(sourceBBox, destinationBBox) {
-        const interpolate = Popmotion.transform.interpolate
-        const sourceCenter = this.findCenter(sourceBBox);
-        const destinationCenter = this.findCenter(destinationBBox);
-
-        const toX = interpolate(vRange, [sourceCenter.x - destinationCenter.x, 0]);
-        const toY = interpolate(vRange, [sourceCenter.y - destinationCenter.y, 0]);
-        const toScaleX = interpolate(vRange, [sourceBBox.width / destinationBBox.width, 1]);
-        const toScaleY = interpolate(vRange, [sourceBBox.height / destinationBBox.height, 1]);
-
-        return v => modalRenderer.set({
-          opacity: v,
-          x: toX(v),
-          y: toY(v),
-          scaleX: toScaleX(v),
-          scaleY: toScaleY(v)
-        })
-
       },
       cancelBackgroundEffect() {
         document.querySelector(this.backgroundEffectEl).style.filter = 'none'
       },
-      bestShowMode() {
-        Popmotion = require('popmotion')
-
-        this.$refs.notice.style.position = 'relative'
-        this.$refs.notice.style.top = '0'
-        this.$refs.notice.style.left = '0'
-        // this.$refs.notice.style.transform = 'none'
-        modalRenderer = Popmotion.styler(this.$refs.notice);
-        dimmerRenderer = Popmotion.styler(this.$refs.overlay);
-        modalContainerRenderer = Popmotion.styler(this.$refs.noticeContainer);
-
-        modalRenderer.set('opacity',0).render()
-        dimmerRenderer.set('display', 'block').render()
-        modalContainerRenderer.set('display', 'flex').render()
-
-        const {tween, easing, chain, delay} = Popmotion
-
-        const modalBBox = this.$refs.notice.getBoundingClientRect()
-        const triggerBBox = this.triggerEl.target.getBoundingClientRect()
-        const modalTweener = this.generateModalTweener(triggerBBox, modalBBox)
-
-        tween({
-          duration: 200,
-        }).start({
-          update: (v) => dimmerRenderer.set('opacity', v)
-        })
-
-        chain(
-          delay(75),
-          tween({
-              duration: 200,
-              ease: easing.easeOut,
-            }
-          )).start({
-          update: modalTweener
-        })
-      },
-      compatibilityShowMode() {
-        this.show = true
-      },
       insertedDOM() {
-        this.backgroundEffectEl && this.showBackgroundEffect()
-        if (!window.WeakSet || !this.triggerEl || this.triggerEl.type !== 'click') {
-          this.compatibilityShowMode()
-          return
-        }
-        this.bestShowMode()
+        Anime({
+          targets: this.$refs.notice,
+          opacity: [0, 1],
+          duration: 260,
+          easing: 'easeInOutSine',
+          translateY: [window.innerHeight / 2, 0],
+          scale: [0.2, 1],
+        })
       }
     },
   }
